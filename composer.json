@@ -1,23 +1,26 @@
  {
-	"name": "fluidphp/website-helper",	
-	"type": "framework",
-	"description": "FluidPhp Framework Helpers EmailManager",
-	"keywords": ["php framework"],
-	"homepage": "http://phptoolcase.com",
-	"license": "GPL V2",
+	"name": "fluidphp/website-helper" ,	
+	"type": "package" ,
+	"description": "FluidPhp Framework Website Helper" ,
+	"keywords": [ "php framework" ] ,
+	"homepage": "http://phptoolcase.com" ,
+	"license": "GPL V2" ,
 	"authors": 
 	[
 		{
-			"name": "Carlo Pietrobattista",
-			"email": "carlo@salapc.com",
+			"name": "Carlo Pietrobattista" ,
+			"email": "carlo@salapc.com" ,
 			"role": "Developer"
 		}
 	] ,
-	"extra": 
+	"require": 
 	{
-		"installer-paths": 
-		{
-			"vendor/fluidphp/helpers/{$name}": ["vendor/package"]
-		}
-	}
+		"php": ">=5.3.0" ,
+		"mnsami/composer-custom-directory-installer": "1.0.*",
+		"fluidphp/framework": "~1.0"
+	} ,
+	 "extra": {
+        "installer-paths": {
+            "./test": ["fluidphp/website-helper"]
+        }
 }
