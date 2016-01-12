@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package>
+
+	<lang controller="english" main="true">
+		<prefix>en</prefix>
+		<suffix>en_GB</suffix>
+		<xml>en_GB</xml>
+		<js>en_GB</js>
+	</lang>
+	
+	<lang controller="spanish">
+		<prefix>es</prefix>
+		<suffix>es_ES</suffix>
+		<xml>es_ES</xml>
+		<js>es_ES</js>
+	</lang>
+	
+</package>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+
+	<translation key="hi">hola</translation>
+	<translation key="how_to_get_in">cómo acceder al local</translation>
+	<translation key="bye_bye">Saludos, L'Atlàntida Barcelona</translation>
+	<translation key="email_contact">para cualquier duda o consulta escríbenos a {contat_email}</translation>
+
+</database>

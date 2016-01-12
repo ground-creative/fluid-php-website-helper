@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package>
+	
+	<!-- Pages -->
+	<page id="index" callback="\SomeCallback\View::someMethod">
+		<views>
+			<view>view.skeleton</view>
+			<view child="content">view.index</view>
+		</views>
+		<resources>
+			<block>globals</block>
+			<block>index</block>
+		</resources>
+	</page>
+	
+	<page id="404">
+		<views>
+			<view>view.404</view>
+		</views>
+	</page>
+	
+</package>

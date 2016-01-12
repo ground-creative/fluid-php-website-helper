@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package>
+
+	<!-- Resources -->
+	<resources>
+		<file id="bootstrap-min-css">/assets/plugins/bootstrap/css/bootstrap.min.css</file>
+		<file id="bootstrap-min-js">/assets/plugins/bootstrap/js/bootstrap.min.js</file>
+		<file id="main-css">/assets/css/style.css</file>
+		<file id="jquery-min-js">/assets/plugins/jquery-1.10.2.min.js</file>
+		<file id="jquery-mig-min-js">/assets/plugins/jquery-migrate-1.2.1.min.js</file>
+		<file id="line-icons-css">/assets/plugins/line-icons/line-icons.css</file>
+		<file id="font-awesome-min-css">/assets/plugins/font-awesome/css/font-awesome.min.css</file>
+		<file id="flexislider-css">/assets/plugins/flexslider/flexslider.css</file>
+		<file id="parallax-slider-css">/assets/plugins/parallax-slider/css/parallax-slider.css</file>
+		<file id="brand-buttons-inversed-css">/assets/css/plugins/brand-buttons/brand-buttons-inversed.css</file>
+		<file id="light-green-css">/assets/css/themes/light-green.css</file>
+		<file id="page-css">/assets/css/pages/page_job.css</file>
+		<file id="custom-css">/assets/css/custom.css</file>
+		<file id="flexslider-min-js">/assets/plugins/flexslider/jquery.flexslider-min.js</file>
+		<file id="back-to-top-js">/assets/plugins/back-to-top.js</file>
+		<file id="modernizr-js">/assets/plugins/parallax-slider/js/modernizr.js</file>
+		<file id="cslide-js">/assets/plugins/parallax-slider/js/jquery.cslider.js</file>
+		<file id="app-js">/assets/js/app.js</file>
+		<file id="index-js">/assets/js/pages/index.js</file>
+		<file id="respond-js">/assets/plugins/respond.js</file>
+	</resources>
+	
+	<!-- Globals -->
+	<block id="globals">
+		<css type="CSS Global Compulsory">
+			<resource>bootstrap-min-css</resource>
+			<resource>main-css</resource>
+		</css>
+		<js type="JS Global Compulsory">
+			<resource>jquery-min-js</resource>
+			<resource>jquery-mig-min-js</resource>
+			<resource>bootstrap-min-js</resource>
+		</js>
+	</block>
+	
+	<!-- Index Page -->
+	<block id="index">
+		<css type="CSS Theme">
+			<resource>light-green-css</resource>
+		</css>
+		<css type="CSS Page Level">
+			<resource>page-css</resource>
+		</css>
+		<css type="CSS Customization">
+			<resource>custom-css</resource>
+		</css>
+		<js type="JS Implementing Plugins">
+			<resource>back-to-top-js</resource>
+			<resource>flexslider-min-js</resource>
+			<resource>modernizr-js</resource>
+			<resource>cslide-js</resource>
+		</js>
+		<js type="JS Page Level">
+			<resource>app-js</resource>
+			<resource>index-js</resource>
+			<raw>window.onload = console.log( 'loaded' );</raw>
+		</js>
+		<listener type ="js">some_listener</listener>
+	</block>
+	
+</package>
