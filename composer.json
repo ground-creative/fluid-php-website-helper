@@ -1,6 +1,6 @@
  {
 	"name": "fluidphp/website-helper" ,	
-	"type": "package" ,
+	"type": "framework" ,
 	"description": "FluidPhp Framework Website Helper" ,
 	"keywords": [ "php framework" ] ,
 	"homepage": "http://phptoolcase.com" ,
