@@ -31,6 +31,7 @@ Visit phptoolcase.com for complete guides and examples.
 		{
 			"installer-paths": 
 			{
-				"./vendor/fluidphp/helpers/Website": ["fluidphp/website-helper"]
+				"./vendor/fluidphp/helpers/Website": ["fluidphp/website-helper"] ,
+				"./vendor/fluidphp/helpers/Translator": ["fluidphp/translator-helper"]
 			}
 		}
