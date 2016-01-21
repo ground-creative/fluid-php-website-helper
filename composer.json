@@ -16,7 +16,14 @@
 	"require": 
 	{
 		"mnsami/composer-custom-directory-installer": "1.0.*",
-		"fluidphp/framework": "~1.0" ,
+		"fluidphp/fluidphp": "*" ,
 		"fluidphp/translator-helper": "~1.0"
+	} ,
+	"autoload": 
+	{
+		"psr-4": 
+		{
+			"helpers\\Website\\": ""
+		}
 	}
 }
