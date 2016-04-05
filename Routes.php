@@ -71,6 +71,7 @@
 		*/
 		protected function _buildRoutes( $block , $routes , array $filters = array( ) )
 		{
+			$route_params = null;
 			$controller_id = $this->_controllerID;
 			foreach ( $routes as $route )
 			{
@@ -93,11 +94,20 @@
 				}
 				else if ( $a = ( string ) $route->attributes( )->after ){ $route->after = $a; }
 				$map = ( string ) $route->map[ 0 ];
-				$callback = function ( ) use( $route , $controller_id , $map )
+				if ( $route->params )
+				{
+					$route_params = [ ];
+					foreach ( $route->params[ 0 ] as $param )
+					{
+						$route_params[ ( string ) $param->attributes( )->name ] = ( string ) $param;
+					}
+				}
+				$callback = function ( ) use( $route , $controller_id , $map , $route_params )
 				{
 					\helpers\Website\Manager::currentController( $controller_id );
 					\helpers\Website\Manager::currentRoute( $map );
 					\helpers\Website\Manager::setLang( $controller_id );
+					\helpers\Website\Manager::setRouteParams( $route_params );
 					$metatags = ( $route->metatags ) ? ( array ) $route->metatags[ 0 ] : array( );
 					\helpers\Website\Manager::setMetaTags( ( string ) $route->page[ 0 ] , $metatags );
 					return \helpers\Website\Manager::page( ( string ) $route->page[ 0 ] );

@@ -199,34 +199,41 @@ APP.Validator = APP.Validator ||
 						if ( !items[ i ].validatorError )
 						{
 							items[ i ].validatorError = true;
-							switch( items[ i ].xtype )
+							if ( items[ i ].hasOwnProperty( 'invalidHandler' ) )
 							{
-								case 'radio': // old code
-								case 'radiobutton':
-								case 'checkbox':
-								case 'checkboxgroup':
-									var inputs = items[ i ].getElByName( );
-									for ( var c = 0; c < inputs.length; c++ )
-									{
-										this._setLabelError( inputs[ c ].id , 'add' );
-										APP.addClass( inputs[ c ] , this.ErrorClasses.input );
-										this._appendMsg( inputs[ c ].id , this._ErrorMsgs[ items[ i ].name ][ item.rule ] );
-										this._scrollToEl( inputs[ c ].id );
-										APP.Events.add( 'change' , inputs[ c ] , function( event )
+								items[ i ].invalidHandler( this , items[ i ] , item );
+							}
+							else
+							{
+								switch ( items[ i ].xtype )
+								{
+									case 'radio': // old code
+									case 'radiobutton':
+									case 'checkbox':
+									case 'checkboxgroup':
+										var inputs = items[ i ].getElByName( );
+										for ( var c = 0; c < inputs.length; c++ )
 										{
-											APP.Validator.validateField( this, formName );
-										}.bind( items[ i ] ) );
-									}
-								break;
-								default:
-									this._setLabelError( items[ i ].id , 'add' );
-									items[ i ].addClass( this.ErrorClasses.input );
-									this._appendMsg( items[ i ].id , this._ErrorMsgs[ items[ i ].name ][ item.rule ] );
-									this._scrollToEl( items[ i ].id );
-									APP.Events.add( 'change' , items[ i ] , function( event )
-									{
-										APP.Validator.validateField( this , formName );
-									} );
+											this._setLabelError( inputs[ c ].id , 'add' );
+											APP.addClass( inputs[ c ] , this.ErrorClasses.input );
+											this._appendMsg( inputs[ c ].id , this._ErrorMsgs[ items[ i ].name ][ item.rule ] );
+											this._scrollToEl( inputs[ c ].id );
+											APP.Events.add( 'change' , inputs[ c ] , function( event )
+											{
+												APP.Validator.validateField( this, formName );
+											}.bind( items[ i ] ) );
+										}
+									break;
+									default:
+										this._setLabelError( items[ i ].id , 'add' );
+										items[ i ].addClass( this.ErrorClasses.input );
+										this._appendMsg( items[ i ].id , this._ErrorMsgs[ items[ i ].name ][ item.rule ] );
+										this._scrollToEl( items[ i ].id );
+										APP.Events.add( 'change' , items[ i ] , function( event )
+										{
+											APP.Validator.validateField( this , formName );
+										} );
+								}
 							}
 						}
 					}
@@ -236,7 +243,7 @@ APP.Validator = APP.Validator ||
 		this._scrolled = false;
 		return { 'isValid': is_valid , 'errors': this._Errors , 'messages': this._ErrorMsgs };
 	} ,
-	validateField: function( item, formName )
+	validateField: function( item , formName )
 	{
 		var values = { };
 		values[ item.name ] = item.getValue( );
@@ -254,22 +261,29 @@ APP.Validator = APP.Validator ||
 		var validator = this.validate( items , values , formName );
 		if ( validator.isValid )
 		{
-			switch ( item.xtype)
+			if ( item.hasOwnProperty( 'validHandler' ) )
 			{
-				case 'radio': // old code
-				case 'radiobutton':
-				case 'checkbox':
-				case 'checkboxgroup':
-				var inputs = item.getElByName( );
-				for ( var c =0; c < inputs.length; c++ )
+				item.validHandler( this , item );
+			}
+			else
+			{
+				switch ( item.xtype )
 				{
-					APP.removeClass( inputs[ c ] , this.ErrorClasses.input );
-					this._setLabelError( inputs[ c ].id , 'remove' );
+					case 'radio': // old code
+					case 'radiobutton':
+					case 'checkbox':
+					case 'checkboxgroup':
+					var inputs = item.getElByName( );
+					for ( var c =0; c < inputs.length; c++ )
+					{
+						APP.removeClass( inputs[ c ] , this.ErrorClasses.input );
+						this._setLabelError( inputs[ c ].id , 'remove' );
+					}
+					break;
+					default:
+						item.removeClass( this.ErrorClasses.input );
+						this._setLabelError( item.id , 'remove' );
 				}
-				break;
-				default:
-					item.removeClass( this.ErrorClasses.input );
-					this._setLabelError( item.id , 'remove' );
 			}
 		}
 	} ,

@@ -49,7 +49,7 @@
 					{
 						header( 'Content-Type: application/javascript' );
 						ob_start( );
-						require_once( ptc_path( 'helpers' )  . '/Website/app.prototype.js/' . $prototype .'.js' );
+						require_once( realpath( dirname( __FILE__ ) )  . '/app.prototype.js/' . $prototype .'.js' );
 						return ob_get_clean( );
 						
 					} )->where( 'prototype' , 'App|BaseModel|BaseController|BaseForm|BaseContainer|BaseElements|Validator' );
@@ -91,7 +91,7 @@
 					\App::option( 'website.debug_category' ) . ' Action' );
 			$xml = simplexml_load_file( \App::option( 'website.xml_config_path' ) . '/pages.xml' );
 			$listeners = \Event::get( 'website' );
-			if ( is_array( $listeners ) && $listeners[ 'load_pages_xml' ] )
+			if ( is_array( $listeners ) && isset( $listeners[ 'load_pages_xml' ] ) )
 			{
 				ptc_fire( 'website.load_pages_xml' , array( $page , &$xml ) );
 			}
@@ -106,7 +106,7 @@
 			$msg = 'Adding controller "' . $id . '" routes with website router helper!';
 			ptc_log( $msg , '' , \App::option( 'website.debug_category' ) . ' Config' );
 			$listeners = \Event::get( 'website' );
-			if ( is_array( $listeners ) && $listeners[ 'load_routes_xml' ] )
+			if ( is_array( $listeners ) && isset( $listeners[ 'load_routes_xml' ] ))
 			{
 				ptc_fire( 'website.load_routes_xml' , array( $id , &$xml ) );
 			}
@@ -230,6 +230,27 @@
 				$string .= ( ( ';' !== substr( $string , -1 ) ) ? ';' : null ) . "\n";
 			}
 			return $string .= '</script>';
+		}
+		/**
+		*
+		*/
+		public static function getRouteParam( $name = null )
+		{
+			return static::getRouteParams( $name );
+		}
+		/**
+		*
+		*/
+		public static function getRouteParams( $name = null )
+		{
+			return \App::storage( 'website.route_params' . ( ( $name ) ? '.' . $name : '' ) );
+		}
+		/**
+		*
+		*/
+		public static function setRouteParams( $params )
+		{
+			return \App::storage( 'website.route_params' , $params );
 		}
 		/**
 		*

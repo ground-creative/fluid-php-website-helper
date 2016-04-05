@@ -123,9 +123,12 @@ var APP =
 		}
 		return randomstring;
 	} ,
-	start: function( controller )
+	start: function( )
 	{
-		return this.Controllers[ controller ].run( ); 
+		for ( var i = 0; i < arguments.length; i++ )
+		{
+			this.Controllers[ arguments[ i ] ].run( ); 
+		}
 	} ,
 	getController: function( name )
 	{ 
@@ -246,6 +249,17 @@ var APP =
 				console.log( arguments[ i ] );
 			}
 		}
+	} ,
+	mergeObjects: function ( obj , src ) 
+	{
+		for ( var key in src )
+		{
+			if ( src.hasOwnProperty( key ) ) 
+			{
+				obj[ key ] = src[ key ];
+			}
+		}
+		return obj;
 	} ,
 	_create: function( obj )
 	{
