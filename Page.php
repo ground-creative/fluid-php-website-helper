@@ -34,16 +34,17 @@
 				trigger_error( 'Page block "' . $this->_page . 
 							'" was not set in pages.xml file!' , E_USER_ERROR );
 				return false;
-			}
+			}	
 			$data = array
 			( 
-				\App::option( 'website.resources_param' ) 		=>	null , 
-				\App::option( 'website.lang_param' ) 			=>	null , 
-				\App::option( 'website.data_param' ) 			=>	null , 
-				\App::option( 'website.current_route_param' )  	=>	Manager::currentRoute( ) ,
-				\App::option( 'website.current_page_param' )  	=>	$this->_page ,
-				\App::option( 'website.meta_tags_param' )		=>	Manager::getMetaTags( ) ,
-				\App::option( 'website.current_path_param' )  	=>	Manager::getPath( )
+				\App::option( 'website.resources_param' ) 	=>	null , 
+				\App::option( 'website.lang_param' ) 		=>	null , 
+				\App::option( 'website.data_param' ) 		=>	null , 
+				\App::option( 'website.current_route_param' )  =>	Manager::currentRoute( ) ,	// DEPRECATED
+				\App::option( 'website.current_page_param' )  =>	$this->_page ,				// DEPRECATED
+				\App::option( 'website.meta_tags_param' )	=>	Manager::getMetaTags( ) ,
+				\App::option( 'website.current_path_param' )  =>	Manager::getPath( ) ,		// DEPRECATED
+				\App::option( 'website.router_param' )		=>	new models\Router( $this->_page )
 			);
 			$data[ \App::option( 'website.current_route_param' ) . 'Raw' ] = 
 					( Manager::currentRoute( ) && Manager::getLang( 'suffix' ) ) ? 
@@ -56,7 +57,7 @@
 				{
 					$blocks[ ] = ( string ) $block;
 				}
-				$data[ \App::option( 'website.resources_param' ) ] = new Resources( $blocks , $this->_page );
+				$data[ \App::option( 'website.resources_param' ) ] = new models\Resources( $blocks , $this->_page );
 			}
 			$data[ \App::option( 'website.lang_param' ) ] = $this->_getTranslator( );
 			$params = array( $this->_page , &$data[ \App::option( 'website.data_param' ) ] , 
@@ -78,7 +79,7 @@
 				{
 					$storage[ ( string ) $element->attributes( )->name ] = ( string ) $element;
 				}
-				$data[ \App::option( 'website.elements_param' ) ] =  new Elements( $storage , $data );
+				$data[ \App::option( 'website.elements_param' ) ] =  new models\Elements( $storage , $data );
 			}
 			$view = \View::make( \App::option( 'website.views_path' ) . '/' . $views[ 0 ] , $data );
 			if ( count( $views ) > 1 )

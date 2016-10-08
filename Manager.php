@@ -80,7 +80,7 @@
 		*/
 		public static function setMetaTags( $pageID , $data )
 		{	
-			return static::$_metatags = new MetaTags( $pageID , $data );
+			return static::$_metatags = new models\MetaTags( $pageID , $data );
 		}
 		/**
 		*

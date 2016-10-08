@@ -7,7 +7,9 @@ APP.Base.Model = APP.Base.Model ||
 	_Fields: { } ,
 	get: function( key )
 	{
-		if ( null === this._Fields[ key ] && null !== this.Defaults[ key ] )
+		if ( ( null === this._Fields[ key ] || 
+			undefined === this._Fields[ key ] ) 
+					&& null !== this.Defaults[ key ] )
 		{
 			return this.Defaults[ key ];
 		}

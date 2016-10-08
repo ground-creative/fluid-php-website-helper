@@ -17,7 +17,9 @@
 	{
 		"mnsami/composer-custom-directory-installer": "1.0.*",
 		"fluidphp/fluidphp": "*" ,
-		"fluidphp/translator-helper": "~1.0"
+		"fluidphp/translator-helper": "~1.0" ,
+		"fluidphp/viewmodel-helper": "~1.0"
+		
 	} ,
 	"autoload": 
 	{

@@ -371,7 +371,7 @@ APP.Validator = APP.Validator ||
 		{
 			this._scrolled = true;
 			APP.getElById( id + 'Hint' ).style.display = 'inline';
-			APP.getElById( id ).scrollIntoView( );
+			APP.getElById( id ).scrollIntoView( false );
 			APP.getElById( id ).focus( );
 		}
 	} ,

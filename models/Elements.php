@@ -1,6 +1,6 @@
 <?php
 
-	namespace helpers\Website;	
+	namespace helpers\Website\models;	
 
 	class Elements
 	{
@@ -22,9 +22,26 @@
 				return $this->_cache[ $key ];
 			}
 			$this->_vars[ \App::option( 'website.elements_param' ) ] = $this;
-			return $this->_cache[ $key ] = \View::make( \App::option( 'website.views_path' ) . '/' . 
-										$this->_storage[ $key ] , $this->_vars )->compile( );
+			$vars = array_merge( $this->_vars , $this->_elVars );
+			$this->_cache[ $key ] = \View::make( \App::option( 'website.views_path' ) . '/' . 
+									$this->_storage[ $key ] , $vars )->compile( );
 			$this->_useCache = true;
+			return $this->_cache[ $key ];
+		}
+		
+		public function addValues( $values )
+		{
+			foreach ( $values as $k => $v )
+			{
+				$this->_elVars[ $k ] = $v;
+			}
+			return $this;
+		}
+		
+		public function reset( )
+		{
+			$this->_elVars = array( );
+			return $this;
 		}
 		
 		public function fresh( )
@@ -40,4 +57,6 @@
 		protected $_storage = array( );
 		
 		protected $_vars = null;
+		
+		protected $_elVars = array( );
 	}

@@ -1,6 +1,8 @@
 <?php
 
-	namespace helpers\Website;
+	namespace helpers\Website\models;
+	
+	use helpers\Website\Manager as Manager;
 	
 	class Resources
 	{

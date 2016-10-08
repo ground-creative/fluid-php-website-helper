@@ -1,4 +1,3 @@
- 
 <?php
 
 	/*
@@ -32,13 +31,15 @@
 		
 		'elements_param'		=>	'_elements' ,
 		
-		'current_route_param'	=>	'_currentRoute' ,
+		'current_route_param'	=>	'_currentRoute' ,	// DEPRECATED
 		
-		'current_page_param'	=>	'_currentPage' ,
+		'current_page_param'	=>	'_currentPage' ,	// DEPRECATED
 		
 		'meta_tags_param'		=>	'_metatags' ,
 		
-		'current_path_param'	=>	'_path' ,
+		'router_param'			=>	'_router' ,
+		
+		'current_path_param'	=>	'_path' ,			// DEPRECATED
 		
 		'auto_include_js_lang'	=>	true ,
 		
