@@ -1,6 +1,6 @@
 <?php
 
-	namespace helpers\Website;
+	namespace helpers\Website\models;
 	
 	class MetaTags
 	{

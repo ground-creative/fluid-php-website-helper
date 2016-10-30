@@ -61,7 +61,7 @@
 					{
 						header( 'Content-Type: application/javascript' );
 						ob_start( );
-						require_once( ptc_path( 'helpers' )  . '/Website/app.prototype.js/helpers/' . $helper .'.js' );
+						require_once(  realpath( dirname( __FILE__ ) )  . '/app.prototype.js/helpers/' . $helper .'.js' );
 						return ob_get_clean( );
 						
 					} )->where( 'helper' , $helpers );
@@ -80,7 +80,7 @@
 		*/
 		public static function setMetaTags( $pageID , $data )
 		{	
-			return static::$_metatags = new MetaTags( $pageID , $data );
+			return static::$_metatags = new models\MetaTags( $pageID , $data );
 		}
 		/**
 		*

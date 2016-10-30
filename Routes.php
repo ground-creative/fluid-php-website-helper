@@ -15,7 +15,7 @@
 					count( $block = $this->_xml->xpath( "//patterns" ) ) > 0 )
 			{
 				define( '_WEBSITE_HELPER_CHECKED_PATTERNS_' , true ); 
-				Website::setUrlPatterns( $block[ 0 ]->pattern );
+				Manager::setUrlPatterns( $block[ 0 ]->pattern );
 			}
 		}
 		/**
@@ -71,7 +71,6 @@
 		*/
 		protected function _buildRoutes( $block , $routes , array $filters = array( ) )
 		{
-			$route_params = null;
 			$controller_id = $this->_controllerID;
 			foreach ( $routes as $route )
 			{
@@ -94,6 +93,7 @@
 				}
 				else if ( $a = ( string ) $route->attributes( )->after ){ $route->after = $a; }
 				$map = ( string ) $route->map[ 0 ];
+				$route_params = null;
 				if ( $route->params )
 				{
 					$route_params = [ ];
