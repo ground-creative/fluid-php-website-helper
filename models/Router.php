@@ -25,7 +25,7 @@
 		
 		public function raw( )
 		{
-			( Manager::currentRoute( ) && Manager::getLang( 'suffix' ) ) ? 
+			return ( Manager::currentRoute( ) && Manager::getLang( 'suffix' ) ) ? 
 						str_replace( '_' . Manager::getLang( 'suffix' ) , '' ,  
 										Manager::currentRoute( ) ) : null;
 		}
