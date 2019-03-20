@@ -6,6 +6,7 @@ APP.Base.Container = APP.Base.Container ||
 	html: null ,
 	cls: null ,
 	tag: null ,
+	exec: null ,
 	parent: function( )
 	{
 		return this._parent;
@@ -44,7 +45,13 @@ APP.Base.Container = APP.Base.Container ||
 	} ,
 	getAttribute: function( attr )
 	{
+            try {
 		return this.getElById( ).getAttribute( attr );
+            }
+            catch(err) {
+                return false;
+            }
+
 	} ,
 	setAttribute: function( attr , value )
 	{
