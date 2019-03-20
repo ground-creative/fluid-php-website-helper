@@ -1,25 +1,23 @@
-/**
-* @version 1.0.2
-*/
 var APP =
 {
 	id: 'APP' ,
 	name: 'APP' ,
+	env: 'develop' ,
 	Base: {} ,
 	Controllers: this.Controllers || {} ,
 	Forms: this.Forms || {} ,
 	Views: this.View || {} ,
 	Models: this.Models || {} ,
-	Helpers: this.Helpers|| {} ,
 	Elements: this.Elements || {} ,
-	Lang: this.Lang || {} ,
+	Storage: this.Storage || {} ,
 	Config: this.Config || 
 	{
 		url: null ,
 		env: '/' ,
-		test_env: 1 ,
+		test_env: 0 ,
 		revision: '0.0.1'
 	} ,
+	Lang: this.Lang || {} ,
 	Storage: // this.Storage || // Seems to be present as native code
 	{
 		get: function( key , defaultVal )
@@ -111,24 +109,28 @@ var APP =
 		var results = regex.exec( url );
 		return results == null ? null : results[ 1 ];
 	} ,
-	random: function( length ) 
+	start: function( controller )
 	{
-		var chars = '0123456789ABCDEFGHIJKLMNOPQRST' +
-						'UVWXTZabcdefghiklmnopqrstuvwxyz';
-		var randomstring = '';
-		for ( var i = 0; i < length; i++ ) 
+		for ( var i in this._Exec )
 		{
-			var rnum = Math.floor( Math.random( ) * chars.length );
-			randomstring += chars.substring( rnum , rnum + 1 );
+			if ( this._Exec[ i ].hasOwnProperty( 'attach' ) && 
+						typeof this._Exec[ i ].attach === 'string' )
+			{
+				this._Exec[ i ].addEvents( this._Exec[ i ].attach );
+			}
+			if ( this._Exec[ i ].hasOwnProperty( 'exec' ) && this._Exec[ i ].exec != null )
+			{
+				if ( typeof this._Exec[ i ].exec === 'string' )
+				{
+					this._Exec[ i ][ this._Exec[ i ].exec ]( );
+				}
+				else
+				{
+					this._Exec[ i ].exec( );
+				}
+			}
 		}
-		return randomstring;
-	} ,
-	start: function( )
-	{
-		for ( var i = 0; i < arguments.length; i++ )
-		{
-			this.Controllers[ arguments[ i ] ].run( ); 
-		}
+		return this.Controllers[ controller ].run( ); 
 	} ,
 	getController: function( name )
 	{ 
@@ -141,10 +143,6 @@ var APP =
 	getView: function( name )
 	{ 
 		return this.Views[ name ]; 
-	} ,
-	getModel: function( name )
-	{ 
-		return this.Models[ name ]; 
 	} ,
 	getContainer: function( name )
 	{ 
@@ -235,6 +233,28 @@ var APP =
 	{
 		return el.classList.toggle( cls );
 	} ,
+	addEventsById: function( events , obj )
+	{
+		if ( null !== obj.getElById( ) )
+		{
+			var e = events.split( ',' );
+			for ( var a in e )
+			{
+				APP.Events.add( e[ a ] , obj );
+			}
+		}			
+	} ,
+	addEventsByClass: function( events , elements )
+	{
+		for ( var a = 0; a < elements.length; a++ )
+		{
+			var e = events.split( ',' );
+			for ( var i in e )
+			{
+				APP.Events.add( e[ i ] , elements[ a ] , elements[ e[ i ] ] );
+			}
+		}
+	} ,
 	extend: function( obj ) 
 	{
 		obj._extended = true;
@@ -242,7 +262,8 @@ var APP =
 	} ,
 	log: function( )
 	{
-		if  ( this.Config.test_env && typeof console != 'undefined' )
+		// log function
+		if  ( 'develop' === this.env && typeof console != 'undefined' )
 		{
 			for ( var i = 0; i < arguments.length; i++ )
 			{
@@ -250,51 +271,17 @@ var APP =
 			}
 		}
 	} ,
-	mergeObjects: function ( obj , src ) 
-	{
-		for ( var key in src )
-		{
-			if ( src.hasOwnProperty( key ) ) 
-			{
-				obj[ key ] = src[ key ];
-			}
-		}
-		return obj;
-	} ,
-	submitForm: function( path , params , method )
-	{
-		method = method || "post";
-		var form = document.createElement( 'form' );
-		form.setAttribute( 'method' , method );
-		form.setAttribute( 'action' , path );
-		for( var key in params ) 
-		{
-			if ( params.hasOwnProperty( key ) )
-			{
-				var hiddenField = document.createElement( 'input' );
-				hiddenField.setAttribute( 'type' , 'hidden' );
-				hiddenField.setAttribute( 'name' , key );
-				hiddenField.setAttribute( 'value' , params[ key ] );
-				form.appendChild( hiddenField );
-			}
-		}
-		document.body.appendChild( form );
-		form.submit( );
-	} ,
+	_Exec: this._Exec || {} ,
 	_create: function( obj )
 	{
 		switch ( obj.xtype )
 		{
 			case 'checkboxgroup':
-				return this.Base.CheckBox.extend( obj );
-			break;
 			case 'checkbox':
 				return this.Base.CheckBox.extend( obj );
 			break;
+			case 'radio':
 			case 'radiobutton':
-				return this.Base.RadioButton.extend( obj );
-			break;
-			case 'radio': // old code
 				return this.Base.RadioButton.extend( obj );
 			break;
 			case 'textfield':
@@ -318,20 +305,19 @@ var APP =
 			case 'form':
 				return this.Base.Form.extend( obj );
 			break;
+			case 'model':
+				return this.Base.Model.extend( obj );
+			break;
+			break;
 			case 'tabs':
 				return this.Base.Tabs.extend( obj );
 			break;
 			case 'tabitem':
 				return this.Base.TabItem.extend( obj );
 			break;
-			//case 'model': // model is never an item
-			//	return this.Base.Model.extend( obj );
-			//break;
-			//case 'controller': // controller is never an item
+			//case 'controller': //controller is never an item
 			//	return this.Base.Controller.extend( obj );
 			//break;
-			//default:
-			//	return this.Base.Element.extend( obj );
 		}
 		return obj;
 	} ,
@@ -371,6 +357,12 @@ var APP =
 					cl.items[ b ] = obj.items[ b ];  
 					obj.items[ b ]._parent = cl;
 				}
+			}
+			if ( ( cl.hasOwnProperty( 'attach' ) && typeof cl.attach === 'string' || 
+							cl.hasOwnProperty( 'exec' ) && cl.exec != null ) && 
+										!this._Exec.hasOwnProperty( cl.name ) )
+			{
+				this._Exec[ cl.name ] = cl;
 			}
 		}
 		if ( cl.hasOwnProperty( 'xtype' ) )
@@ -425,12 +417,6 @@ var APP =
 			break;
 			case 'element':
 				if ( cl.name !== 'BaseElement'  )
-				{
-					this.Elements[ cl.name ] = cl;
-				}
-			break;
-			case 'tabs':
-				if ( cl.name !== 'BaseTabs'  )
 				{
 					this.Elements[ cl.name ] = cl;
 				}
