@@ -14,6 +14,29 @@ APP.Base.View = APP.Base.View || APP.Base.Container.extend
 			}
 		}
 		return null;
+	} ,
+	addListenersById: function( params )	// DEPRECATED
+	{
+		this.addEventsById( params );
+	} ,
+	addListenersByClass: function( params )	// DEPRECATED
+	{
+		this.addEventsByClass( params );
+	} ,
+	addEventsById: function( params )
+	{
+		for ( prop in params )
+		{
+			APP.addEventsById( params[ prop ] , this.getItem( prop ) );
+		}
+	} ,
+	addEventsByClass: function( params )
+	{
+		for ( prop in params )
+		{
+			var elements = APP.getElByClass( this.getItem( prop ).cls );
+			APP.addEventsByClass( params[ prop ] , elements );
+		}
 	}
 } );
 
@@ -22,13 +45,18 @@ APP.Base.Element = APP.Base.Element || APP.Base.View.extend
 	id: 'BaseElement' ,
 	name: 'BaseElement' ,
 	xtype: 'element' ,
+	attach: null ,
 	mouseover: function( event ){ } ,
 	mouseout: function( event ){ } ,
 	mouseenter: function( event ){ } ,
 	mousemove: function( event ){ } ,
 	click: function( event ){ } ,
 	blur: function( event ){ } ,
-	focus: function( event ){ }
+	focus: function( event ){ } ,
+	addEvents: function( events )
+	{
+		APP.addEventsById( events , this );
+	}
 } );
 
 APP.Base.Select = APP.Base.Select || APP.Base.Element.extend
@@ -60,6 +88,7 @@ APP.Base.Button = APP.Base.Button || APP.Base.Container.extend
 	type: 'button' ,
 	defaultValue: '' ,
 	value: null ,
+	attach: null ,
 	getValue: function( )
 	{
 		return this.value = this.getElById( ).value;
@@ -76,7 +105,11 @@ APP.Base.Button = APP.Base.Button || APP.Base.Container.extend
 	mousemove: function( event ){ } ,
 	click: function( event ){ } ,
 	blur: function( event ){ } ,
-	focus: function( event ){ }
+	focus: function( event ){ } ,
+	addEvents: function( events )
+	{
+		APP.addEventsById( events , this );
+	}
 } );
 
 APP.Base.TextField = APP.Base.TextField || APP.Base.Button.extend
@@ -105,6 +138,7 @@ APP.Base.CheckBox = APP.Base.CheckBox || APP.Base.Container.extend
 	type: 'checkbox' ,
 	xtype: 'checkbox' ,
 	checked: '' ,
+	attach: null ,
 	check: function( checked )
 	{
 		this.getElByName( )[ 0 ].checked = checked;
@@ -130,7 +164,11 @@ APP.Base.CheckBox = APP.Base.CheckBox || APP.Base.Container.extend
 	click: function( event ){ } ,
 	blur: function( event ){ } ,
 	focus: function( event ){ } ,
-	change: function( event ){ }
+	change: function( event ){ } ,
+	addEvents: function( events )
+	{
+		APP.addEventsById( events , this );
+	}
 } );
 
 APP.Base.RadioButton = APP.Base.RadioButton || APP.Base.CheckBox.extend
