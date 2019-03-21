@@ -7,8 +7,10 @@ var APP =
 	Controllers: this.Controllers || {} ,
 	Forms: this.Forms || {} ,
 	Views: this.View || {} ,
-	Models: this.Models || {} ,
-	Elements: this.Elements || {} ,
+	Models: this.Models || {},
+	Helpers: this.Helpers || {},
+	Elements: this.Elements || {},
+	Lang: this.Lang || {},
 	Storage: this.Storage || {} ,
 	Config: this.Config || 
 	{
@@ -109,6 +111,17 @@ var APP =
 		var results = regex.exec( url );
 		return results == null ? null : results[ 1 ];
 	} ,
+	random: function( length )
+	{
+		var chars = '0123456789ABCDEFGHIJKLMNOPQRST' + 'UVWXTZabcdefghiklmnopqrstuvwxyz';
+		var randomstring = '';
+		for ( var i = 0; i < length; i++ )  
+		{
+			var rnum = Math.floor( Math.random( ) * chars.length );
+			randomstring += chars.substring( rnum , rnum + 1 );
+		}
+		return randomstring;
+	} ,
 	start: function( controller )
 	{
 		for ( var i in this._Exec )
@@ -143,6 +156,10 @@ var APP =
 	getView: function( name )
 	{ 
 		return this.Views[ name ]; 
+	} ,
+	getModel: function( name ) 
+	{
+		return this.Models[ name ];
 	} ,
 	getContainer: function( name )
 	{ 
@@ -417,6 +434,12 @@ var APP =
 			break;
 			case 'element':
 				if ( cl.name !== 'BaseElement'  )
+				{
+					this.Elements[ cl.name ] = cl;
+				}
+			break;
+			case 'tabs':
+				if ( cl.name !== 'BaseTabs' ) 
 				{
 					this.Elements[ cl.name ] = cl;
 				}
