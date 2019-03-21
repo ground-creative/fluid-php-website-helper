@@ -34,8 +34,7 @@ APP.Base.View = APP.Base.View || APP.Base.Container.extend
 	{
 		for ( prop in params )
 		{
-			var elements = APP.getElByClass( this.getItem( prop ).cls );
-			APP.addEventsByClass( params[ prop ] , elements );
+			APP.addEventsByClass( params[ prop ] , this.getItem( prop ) );
 		}
 	}
 } );
@@ -46,17 +45,21 @@ APP.Base.Element = APP.Base.Element || APP.Base.View.extend
 	name: 'BaseElement' ,
 	xtype: 'element' ,
 	attach: null ,
+	addEvents: function( events )
+	{
+		APP.addEventsById( events , this );
+	} ,
+	addEventsByClass: function( events )
+	{
+		APP.addEventsByClass( events , this );
+	} ,
 	mouseover: function( event ){ } ,
 	mouseout: function( event ){ } ,
 	mouseenter: function( event ){ } ,
 	mousemove: function( event ){ } ,
 	click: function( event ){ } ,
 	blur: function( event ){ } ,
-	focus: function( event ){ } ,
-	addEvents: function( events )
-	{
-		APP.addEventsById( events , this );
-	}
+	focus: function( event ){ }
 } );
 
 APP.Base.Select = APP.Base.Select || APP.Base.Element.extend
@@ -99,17 +102,21 @@ APP.Base.Button = APP.Base.Button || APP.Base.Container.extend
 		this.value = value;
 		return this;
 	} ,
+	addEvents: function( events )
+	{
+		APP.addEventsById( events , this );
+	} ,
+	addEventsByClass: function( events )
+	{
+		APP.addEventsByClass( events , this );
+	} ,
 	mouseover: function( event ){ } ,
 	mouseout: function( event ){ } ,
 	mouseenter: function( event ){ } ,
 	mousemove: function( event ){ } ,
 	click: function( event ){ } ,
 	blur: function( event ){ } ,
-	focus: function( event ){ } ,
-	addEvents: function( events )
-	{
-		APP.addEventsById( events , this );
-	}
+	focus: function( event ){ }
 } );
 
 APP.Base.TextField = APP.Base.TextField || APP.Base.Button.extend
@@ -157,6 +164,14 @@ APP.Base.CheckBox = APP.Base.CheckBox || APP.Base.Container.extend
 		}
 		return null;
 	} ,
+	addEvents: function( events )
+	{
+		APP.addEventsById( events , this );
+	} ,
+	addEventsByClass: function( events )
+	{
+		APP.addEventsByClass( events , this );
+	} ,
 	mouseover: function( event ){ } ,
 	mouseout: function( event ){ } ,
 	mouseenter: function( event ){ } ,
@@ -164,11 +179,7 @@ APP.Base.CheckBox = APP.Base.CheckBox || APP.Base.Container.extend
 	click: function( event ){ } ,
 	blur: function( event ){ } ,
 	focus: function( event ){ } ,
-	change: function( event ){ } ,
-	addEvents: function( events )
-	{
-		APP.addEventsById( events , this );
-	}
+	change: function( event ){ }
 } );
 
 APP.Base.RadioButton = APP.Base.RadioButton || APP.Base.CheckBox.extend
