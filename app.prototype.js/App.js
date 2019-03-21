@@ -261,14 +261,15 @@ var APP =
 			}
 		}			
 	} ,
-	addEventsByClass: function( events , elements )
+	addEventsByClass: function( events , obj )
 	{
+		var elements = APP.getElByClass( obj.cls );
 		for ( var a = 0; a < elements.length; a++ )
 		{
 			var e = events.split( ',' );
 			for ( var i in e )
 			{
-				APP.Events.add( e[ i ] , elements[ a ] , elements[ e[ i ] ] );
+				APP.Events.add( e[ i ] , elements[ a ] , obj[ e[ i ] ] );
 			}
 		}
 	} ,
