@@ -139,8 +139,7 @@ APP.Validator = APP.Validator ||
 		} ,
 		decimal: function( item )
 		{
-			// to do
-			return true;
+			return APP.Validator.Methods.match( item );
 		}
 	} ,
 	reset: function( items )
