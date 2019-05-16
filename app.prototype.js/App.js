@@ -2,7 +2,6 @@ var APP =
 {
 	id: 'APP' ,
 	name: 'APP' ,
-	env: 'develop' ,
 	Base: {} ,
 	Controllers: this.Controllers || {} ,
 	Forms: this.Forms || {} ,
@@ -16,7 +15,7 @@ var APP =
 	{
 		url: null ,
 		env: '/' ,
-		test_env: 0 ,
+		test_env: 1 ,
 		revision: '0.0.1'
 	} ,
 	Lang: this.Lang || {} ,
@@ -102,7 +101,7 @@ var APP =
 			} , 0 );
 		}
 	} ,
-	getUrlParam: function ( name, url ) 
+	getUrlParam: function ( name , url ) 
 	{
 		url = ( !url ) ? location.href : url;
 		name = name.replace( /[\[]/ ,"\\\[" ).replace( /[\]]/ ,"\\\]" );
@@ -167,24 +166,49 @@ var APP =
 	} ,
 	getEl: function( selector )
 	{
-		el = document.querySelectorAll( selector );
+		var el = document.querySelectorAll( selector );
+		if ( null === el )
+		{
+			this.log( 'HELPER NOTICE: coud not find any html elements with query selector "' + selector + '"' );
+			return el;
+		}
 		return ( el.length > 1 ) ? el : el[ 0 ];
 	} ,
 	getElById: function( id )
 	{
-		return document.getElementById( id );
+		var el = document.getElementById( id );
+		if ( null === el )
+		{
+			this.log( 'HELPER NOTICE: coud not find any html elements with the id "' + id + '"' );
+		}
+		return el;
 	} ,
 	getElByClass: function( cls )
 	{
-		return document.getElementsByClassName( cls );
+		var el = document.getElementsByClassName( cls );
+		if ( null === el )
+		{
+			this.log( 'HELPER NOTICE: coud not find any html elements with the class "' + cls + '"' );
+		}
+		return el;
 	} ,
 	getElByName: function( name )
 	{
-		return document.getElementsByName( name );
+		var el = document.getElementsByName( name );
+		if ( null === el )
+		{
+			this.log( 'HELPER NOTICE: coud not find any html elements with the name "' + name + '"' );
+		}
+		return el;
 	} ,
 	getElByTag: function( tag )
 	{
-		return document.getElementsByTagName( tag );
+		var el = document.getElementsByTagName( tag );
+		if ( null === el )
+		{
+			this.log( 'HELPER NOTICE: coud not find any html elements with the tag "' + tag + '"' );
+		}
+		return el;
 	} ,
 	isVisible: function( selector )
 	{
@@ -281,7 +305,7 @@ var APP =
 	log: function( )
 	{
 		// log function
-		if  ( 'develop' === this.env && typeof console != 'undefined' )
+		if ( this.Config.test_env && typeof console != 'undefined' )
 		{
 			for ( var i = 0; i < arguments.length; i++ )
 			{
@@ -313,6 +337,9 @@ var APP =
 			break;
 			case 'select':
 				return this.Base.Select.extend( obj );
+			break;
+			case 'multiselect':
+				return this.Base.MultiSelect.extend( obj );
 			break;
 			case 'button':
 				return this.Base.Button.extend( obj );
