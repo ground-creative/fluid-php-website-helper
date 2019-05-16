@@ -83,6 +83,26 @@ APP.Base.Select = APP.Base.Select || APP.Base.Element.extend
 	change: function( event ){ }
 } );
 
+APP.Base.MultiSelect = APP.Base.MultiSelect || APP.Base.Select.extend
+( {
+	id: 'MultiSelect' ,
+	name: 'MultiSelect' ,
+	xtype: 'multiselect' ,
+	getValue: function( )
+	{ 
+		var result = [ ];
+		var options = this.getElById( ).options;
+		for ( var i = 0; i < options.length; i++ ) 
+		{
+			if ( options[ i ].selected )
+			{
+				result.push( options[ i ].value || options[ i ].text );
+			}
+		}
+		return this.value = result;
+	}
+} );
+
 APP.Base.Button = APP.Base.Button || APP.Base.Container.extend
 ( {
 	id: 'Button' ,
