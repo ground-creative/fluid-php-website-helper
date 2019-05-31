@@ -80,7 +80,7 @@ APP.Base.Form = APP.Base.Form || APP.Base.View.extend
 	} ,
 	validate: function( )
 	{
-		var validator = APP.Validator.validate( this.items , this.getValues( ) );
+		var validator = APP.Validator.validate( this.items , this.getValues( ) , this.name );
 		if ( validator.isValid )
 		{
 			this.success( this.values );
@@ -104,6 +104,13 @@ APP.Base.Form = APP.Base.Form || APP.Base.View.extend
 				return false;
 			//}
 		}.bind( this ) );
+		for ( var i in this.items )
+		{
+			if ( this.items[ i ].hasOwnProperty( 'fn' ) )
+			{
+				this.items[ i ].fn( );
+			}
+		}
 		return this;
 	} ,
 	listeners:
