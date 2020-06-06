@@ -70,7 +70,7 @@
 		/**
 		*
 		*/	
-		public static function callback( $data , $callback )
+		public static function callback( $data , $callback , $pageID = null )
 		{
 			foreach ( $data as $k => $v )
 			{
@@ -84,7 +84,7 @@
 						$match = preg_replace( '#{|}#' , '' , $match );
 						if ( method_exists( $instance , $match ) )
 						{
-							$arr[ $match ] = call_user_func( array( $instance , $match ) );
+							$arr[ $match ] = call_user_func( [ $instance , $match ] , $pageID );
 						}
 						else
 						{
