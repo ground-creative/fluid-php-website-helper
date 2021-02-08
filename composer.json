@@ -4,12 +4,12 @@
 	"description": "FluidPhp Framework Website Helper" ,
 	"keywords": [ "php framework" ] ,
 	"homepage": "http://phptoolcase.com" ,
-	"license": "GPL V2" ,
+	"license": "GPL-2.0-or-later" ,
 	"authors": 
 	[
 		{
 			"name": "Carlo Pietrobattista" ,
-			"email": "carlo@salapc.com" ,
+			"email": "irony00100@gmail.com" ,
 			"role": "Developer"
 		}
 	] ,
