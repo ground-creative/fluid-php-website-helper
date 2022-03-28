@@ -1,37 +1,43 @@
- ##########################################################
+ # FluidPhp Validator Helper
 
-FluidPhp 1 open source project website helper
+FluidPhp is a framework based on the PhpToolCase library, visit [phptoolcase.com](http://phptoolcase.com) for complete guides and examples.
 
-A powerfull framework based on the phptoolcase library.
+This helper can be used to validated request parameters (GET,DELETE,PUT,POST).
 
-##########################################################
+## Installation
 
-FluidPhp is a framework based on the PhpToolCase library.
+Add the package to your composer.json file, to install the helper.
 
-Visit phptoolcase.com for complete guides and examples.
+With fluidphp framework:
+```
+"require": 
+{
+	"fluidphp/website-helper": "*"
+} ,
+"extra": 
+{
+	"installer-paths": 
+	{
+		"./vendor/fluidphp/helpers/Website": ["fluidphp/website-helper"] ,
+		"./vendor/fluidphp/helpers/Translator": ["fluidphp/translator-helper"] ,
+		"./vendor/fluidphp/helpers/ViewModel": ["fluidphp/viewmodel-helper"]
+	}
+}
+```	
+Stand-alone:
+```		
+"require": 
+{
+	"fluidphp/website-helper": "*"
+}
+```
 
-== PROJECT INFO ===================================
+## Project Info
 
-== Project Home: http://phptoolcase.com
+### Project Home
 
-== Requirements: php version 5.3+
+http://phptoolcase.com
 
-== INSTALLATION WITH COMPOSER ========================
-	
-	Add the following to your composer.json file:
-	
-	- WITH FLUIDPHP FRAMEWORK:
+### Requirements
 
-		"require": 
-		{
-			"fluidphp/website-helper": "~1.0"
-		} ,
-		"extra": 
-		{
-			"installer-paths": 
-			{
-				"./vendor/fluidphp/helpers/Website": ["fluidphp/website-helper"] ,
-				"./vendor/fluidphp/helpers/Translator": ["fluidphp/translator-helper"] ,
-				"./vendor/fluidphp/helpers/ViewModel": ["fluidphp/viewmodel-helper"]
-			}
-		}
+php version 5.4+

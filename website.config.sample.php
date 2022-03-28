@@ -3,19 +3,14 @@
 	/*
 	| ---------------------------------------------------
 	| Wesite Helper Cofiguration File
-	| ----------------------------------------------------------
-	|
-	| This file should hold details for all your database connections
-	| Refer to http://phptoolcase.com/ptc-db-guide.html to 
-	| understand all available options
-	|
+	| ---------------------------------------------------
 	*/
 
 	return array
 	(
 		'_load'				=>	'\helpers\Website\Manager::loadConfig' , 
 		
-		'controllers'			=>	array( 'main' ) ,
+		'controllers'			=>	[ 'main' ] ,
 		
 		'xml_config_path'		=>	ptc_path( 'xml' ) . '/config' ,
 		

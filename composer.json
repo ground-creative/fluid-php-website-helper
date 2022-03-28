@@ -5,20 +5,21 @@
 	"keywords": [ "php framework" ] ,
 	"homepage": "http://phptoolcase.com" ,
 	"license": "GPL-2.0-or-later" ,
+	"version": "v1.0.7-stable",
 	"authors": 
 	[
 		{
 			"name": "Carlo Pietrobattista" ,
-			"email": "irony00100@gmail.com" ,
+			"email": "carlo@ground-creative.com",
 			"role": "Developer"
 		}
 	] ,
 	"require": 
 	{
-		"mnsami/composer-custom-directory-installer": "1.1.*",
+		"mnsami/composer-custom-directory-installer": "2.0.*" ,
 		"fluidphp/fluidphp": "*" ,
-		"fluidphp/translator-helper": "~1.0" ,
-		"fluidphp/viewmodel-helper": "~1.0"
+		"fluidphp/translator-helper": "*" ,
+		"fluidphp/viewmodel-helper": "*"
 		
 	} ,
 	"autoload": 
