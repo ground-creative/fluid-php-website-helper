@@ -26,7 +26,7 @@
 		*/
 		public function js( )
 		{
-			return Resources::_mergeBlocks( $this->_page ,$this->_resource , 'js' );
+			return Resources::_mergeBlocks( $this->_page , $this->_resource , 'js' );
 		}
 		/**
 		*
@@ -202,6 +202,7 @@
 				$resources = static::$_xml->xpath("//resources");
 				foreach ( $resources[ 0 ]->file as $file )
 				{
+					$resource = (array) $file;
 					$id = (string) $file->attributes( )->id;
 					if ( isset( static::$_resources[ $id ] ) )
 					{
@@ -210,13 +211,13 @@
 					}
 					if ( \App::option( 'app.test_env' ) )
 					{
-						$resource = ( ( $file->attributes( )->rand ) ? $file->{0} . 
-										'?rand=' . rand( 100 , 999 ) : $file->{0} );
+						$resource = ( ( $file->attributes( )->rand ) ? $resource[ 0 ] . 
+										'?rand=' . rand( 100 , 999 ) : $resource[ 0 ] );
 					}
 					else
 					{
-						$resource = ( ( $rev = \App::option( 'revision.number' ) ) ? $file->{0} . 
-															'?rev=' . $rev : $file->{0} );
+						$resource = ( ( $rev = \App::option( 'revision.number' ) ) ? 
+												$resource[ 0 ] . '?rev=' . $rev : $resource[ 0 ] );
 					}
 					static::$_resources[ $id ] = array( 'file' => $resource , 'external' => false );
 					if ( $external = (string) $file->attributes( )->external )
