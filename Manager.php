@@ -6,8 +6,8 @@
 	{
 		/**
 		*
-		*/
-		public static function loadConfig( $options )
+		*/	
+		public static function _load( $options )
 		{
 			$controllers = $options[ 'controllers' ];
 			ptc_listen( 'app.start' , function( ) use ( $controllers )
