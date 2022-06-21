@@ -8,7 +8,7 @@
 
 	return array
 	(
-		'_load'				=>	'\helpers\Website\Manager::loadConfig' , 
+		'_load'				=>	'\helpers\Website\Manager::_load' , 
 		
 		'controllers'			=>	[ 'main' ] ,
 		
