@@ -1,8 +1,8 @@
- # FluidPhp Validator Helper
+ # FluidPhp Website Helper
 
 FluidPhp is a framework based on the PhpToolCase library, visit [phptoolcase.com](http://phptoolcase.com) for complete guides and examples.
 
-This helper can be used to validated request parameters (GET,DELETE,PUT,POST).
+This helper can be used to configure routes and web pages with xml files.
 
 ## Installation
 
@@ -23,14 +23,6 @@ With fluidphp framework:
 		"./vendor/fluidphp/helpers/ViewModel": ["fluidphp/viewmodel-helper"]
 	}
 }
-```	
-Stand-alone:
-```		
-"require": 
-{
-	"fluidphp/website-helper": "*"
-}
-```
 
 ## Project Info
 

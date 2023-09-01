@@ -5,7 +5,7 @@
 	"keywords": [ "php framework" ] ,
 	"homepage": "http://phptoolcase.com" ,
 	"license": "GPL-2.0-or-later" ,
-  "version": "v1.0.9",
+	"version": "v1.0.9",
 	"authors": 
 	[
 		{
@@ -16,11 +16,12 @@
 	] ,
 	"require": 
 	{
-		"mnsami/composer-custom-directory-installer": "2.0.*" ,
-		"fluidphp/fluidphp": "*" ,
-		"fluidphp/translator-helper": "*" ,
+		"php": "5.4.0 - 7.4",
+		"fluidphp/framework": "*",
+		"mnsami/composer-custom-directory-installer": "2.0.*",
+		"fluidphp/fluidphp": "*",
+		"fluidphp/translator-helper": "*",
 		"fluidphp/viewmodel-helper": "*"
-		
 	} ,
 	"autoload": 
 	{
