@@ -8,7 +8,6 @@ This helper can be used to configure routes and web pages with xml files.
 
 Add the package to your composer.json file, to install the helper.
 
-With fluidphp framework:
 ```
 "require": 
 {
@@ -23,7 +22,7 @@ With fluidphp framework:
 		"./vendor/fluidphp/helpers/ViewModel": ["fluidphp/viewmodel-helper"]
 	}
 }
-
+```
 ## Project Info
 
 ### Project Home
