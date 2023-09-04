@@ -398,8 +398,9 @@ APP.Validator = APP.Validator ||
 	_getOption: function( propertyName , item )
 	{
 		var prop = propertyName.charAt( 0 ).toUpperCase( ) + propertyName.slice( 1 );
+		//item.propertyName : this[ prop ][ item.rule ];
 		return ( item.hasOwnProperty( propertyName ) ) ? 
-				item.propertyName : this[ prop ][ item.rule ];	
+				item[propertyName] : this[ prop ][ item.rule ];	
 	} ,
 	_formatErrorMsg: function( message , item )
 	{
