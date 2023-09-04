@@ -154,6 +154,11 @@
 						$items[ ] = $resource_id;
 					}
 					if ( $comment = $children->{$i}->attributes( ) ){ $comment = $comment->type; }
+					$listeners = \Event::get('website');
+					if (is_array($listeners) && isset($listeners['compiling_resource_block']))
+					{
+						ptc_fire('website.compiling_resource_block', [$page , $blockID, &$items , $type]);
+					}
 					$string .= static::_build( $items , $type , $comment );
 				}
 			}
@@ -193,12 +198,16 @@
 		/**
 		*
 		*/
-		protected static function _initialize( )
+		protected static function _initialize()
 		{
-			if ( !static::$_xml )
+			if (!static::$_xml)
 			{
-				static::$_xml = simplexml_load_file( 
-								\App::option( 'website.xml_config_path' ) . '/resources.xml' );
+				static::$_xml = simplexml_load_file(\App::option('website.xml_config_path') . '/resources.xml');
+				$listeners = \Event::get('website');
+				if (is_array($listeners) && isset($listeners['load_resources_xml']))
+				{
+					ptc_fire('website.load_resources_xml', [&static::$_xml]);
+				}
 				$resources = static::$_xml->xpath("//resources");
 				foreach ( $resources[ 0 ]->file as $file )
 				{

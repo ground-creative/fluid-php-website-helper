@@ -81,12 +81,22 @@
 				}
 				$data[ \App::option( 'website.elements_param' ) ] =  new models\Elements( $storage , $data );
 			}
-			$view = \View::make( \App::option( 'website.views_path' ) . '/' . $views[ 0 ] , $data );
-			if ( count( $views ) > 1 )
+			$listeners = \Event::get('website');
+			$view_file = \App::option( 'website.views_path' ) . '/' . $views[ 0 ];
+			if (is_array($listeners) && isset($listeners['compiling_view']))
+			{
+				ptc_fire('website.compiling_view', [$this->_page, &$data, &$views]);
+			}
+			$view = \View::make($view_file, $data);
+			if ( count( $views ) > 1)
 			{
 				unset( $views[ 0 ] );
 				foreach ( $views as $file )
 				{
+					if (is_array($listeners) && isset($listeners['compiling_child_view']))
+					{
+						ptc_fire('website.compiling_child_view', [$this->_page, &$data, &$file, &$view]);
+					}
 					$child = ( string ) $file->attributes( )->child;
 					$view = $view->nest( $child , \App::option( 'website.views_path' ) . 
 													'/' . $file , $view->getPageVars( ) );
@@ -97,12 +107,17 @@
 		/**
 		*
 		*/		
-		protected function _getTranslator( )
+		protected function _getTranslator()
 		{
-			if ( $xml = \App::storage( 'website.current_lang.xml' ) )
+			if ($xml = \App::storage('website.current_lang.xml'))
 			{
-				$fallback = \App::storage( 'website.fallback_lang.xml' );
-				$translator = new \helpers\Translator\Core( $xml , $fallback );
+				$fallback = \App::storage('website.fallback_lang.xml');
+				$translator = new \helpers\Translator\Core($xml, $fallback);
+				$listeners = \Event::get('website');
+				if (is_array($listeners) && isset($listeners['load_translator_xml']))
+				{
+					ptc_fire('website.load_translator_xml', [$translator]);
+				}
 				return $translator;
 			}
 			return null;

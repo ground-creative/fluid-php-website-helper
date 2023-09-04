@@ -260,6 +260,11 @@
 			if ( !static::$_languages )
 			{
 				$xml = simplexml_load_file( \App::option( 'website.xml_config_path' ) . '/languages.xml' );
+				$listeners = \Event::get('website');
+				if (is_array($listeners) && isset($listeners['load_languages_xml']))
+				{
+					ptc_fire('website.load_languages_xml', [&$xml]);
+				}
 				if ( $languages = $xml->xpath( "//lang" ) )
 				{
 					$path = \App::option( 'website.language_files_path' );
@@ -305,6 +310,25 @@
 					foreach ( $element->attributes( ) as $k => $v ) 
 					{
 						$el->addAttribute( $k , $v );
+					}
+				}
+			}
+			return $xml1;
+		}
+		/**
+		*
+		*/
+		public static function mergeResources($xml1, $xml2) 
+		{
+			$xml1 = static::mergeXML($xml1,$xml2 , '/package/block' );			
+			if ($xml2->resources)
+			{
+				foreach ($xml2->resources[ 0 ]->file as $resources)
+				{
+					$el = $xml1->resources->addChild('file', $resources);
+					foreach ($resources->attributes() as $k => $v) 
+					{
+						$el->addAttribute($k, $v);
 					}
 				}
 			}
