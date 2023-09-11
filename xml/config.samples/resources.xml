@@ -40,15 +40,15 @@
 	
 	<!-- Index Page -->
 	<block id="index">
-		<css type="CSS Theme">
+		<link type="CSS Theme">
 			<resource>light-green-css</resource>
-		</css>
-		<css type="CSS Page Level">
+		</link>
+		<link type="CSS Page Level">
 			<resource>page-css</resource>
-		</css>
-		<css type="CSS Customization">
+		</link>
+		<link type="CSS Customization">
 			<resource>custom-css</resource>
-		</css>
+		</link>
 		<js type="JS Implementing Plugins">
 			<resource>back-to-top-js</resource>
 			<resource>flexslider-min-js</resource>

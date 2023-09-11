@@ -24,6 +24,13 @@
 		/**
 		*
 		*/
+		public function links( )
+		{
+			return Resources::_mergeBlocks( $this->_page ,$this->_resource , 'link' );
+		}
+		/**
+		*
+		*/
 		public function js( )
 		{
 			return Resources::_mergeBlocks( $this->_page , $this->_resource , 'js' );
@@ -31,9 +38,9 @@
 		/**
 		*
 		*/
-		public function raw( $resource , $type )
+		public function raw($resourcesID, $type, $comment = null)
 		{
-			return Resources::_build( null , $resource , $type );
+			return Resources::_build($resourcesID, $type, $comment);
 		}
 		/**
 		*
@@ -108,24 +115,26 @@
 		/**
 		*
 		*/
-		protected static function _build( $items , $type , $comment = null )
+		protected static function _build($items, $type, $comment = null)
 		{
 			if ( !static::_initialize( ) ){ return false; }
-			$tpl = ( 'css' === $type ) ? 
-				'<link rel="stylesheet" href="{path}">' : 
+			$tpl = ( 'css' === $type || 'link' === $type) ? 
+				'<link rel="{rel}" type="{type}" href="{path}" />' : 
 					'<script type="text/javascript" src="{path}"></script>';
-			$dep = ( $comment ) ? "\t" . '<!-- ' . $comment . '-->' . "\n" : null;
-			$items = ( is_array( $items ) ) ? $items : array( $items );
-			foreach ( $items as $item )
+			$dep = ($comment) ? "\t" . '<!-- ' . $comment . '-->' . "\n" : null;
+			$items = (is_array($items)) ? $items : [$items];
+			foreach ($items as $item)
 			{
-				if ( !isset( static::$_resources[ $item ] ) )
+				if (!isset(static::$_resources[$item]))
 				{
-					trigger_error( 'Resource id "' . $item . '" is not set!', E_USER_ERROR );
+					trigger_error('Resource id "' . $item . '" is not set!', E_USER_ERROR);
 					return false;
 				}
-				$path = ( !static::$_resources[ $item ][ 'external' ] ) ? Manager::getPath( ) : null;
-				$item = static::$_resources[ $item ][ 'file' ];
-				$dep .=  "\t" . str_replace( '{path}' ,  $path . $item , $tpl ) . "\n";
+				$path = (!static::$_resources[$item]['external']) ? Manager::getPath() : null;
+				$_item = static::$_resources[$item]['file'];
+				$rel = ($r = static::$_resources[$item]['rel']) ? $r : 'stylesheet';
+				$type = ($r = static::$_resources[$item]['type']) ? $r : 'text/css';
+				$dep .=  "\t" . str_replace( ['{path}', '{type}', '{rel}'],  [$path . $_item , $type, $rel], $tpl) . "\n";
 			}
 			return $dep;
 		}
@@ -209,29 +218,33 @@
 					ptc_fire('website.load_resources_xml', [&static::$_xml]);
 				}
 				$resources = static::$_xml->xpath("//resources");
-				foreach ( $resources[ 0 ]->file as $file )
+				foreach ($resources[0]->file as $file)
 				{
-					$resource = (array) $file;
-					$id = (string) $file->attributes( )->id;
-					if ( isset( static::$_resources[ $id ] ) )
+					$resource = (array)$file;
+					$id = (string)$file->attributes()->id;
+					if (isset(static::$_resources[$id]))
 					{
-						trigger_error( 'Resource id "' . $id . '" already set!' , E_USER_ERROR );
+						trigger_error('Resource id "' . $id . '" already set!' , E_USER_ERROR);
 						return false;
 					}
-					if ( \App::option( 'app.test_env' ) )
+					if (\App::option('app.test_env'))
 					{
-						$resource = ( ( $file->attributes( )->rand ) ? $resource[ 0 ] . 
-										'?rand=' . rand( 100 , 999 ) : $resource[ 0 ] );
+						$resource = (($file->attributes()->rand) ? $resource[0] . 
+										'?rand=' . rand(100, 999) : $resource[0]);
 					}
 					else
 					{
-						$resource = ( ( $rev = \App::option( 'revision.number' ) ) ? 
-												$resource[ 0 ] . '?rev=' . $rev : $resource[ 0 ] );
+						$resource = (($rev = \App::option('revision.number')) ? 
+												$resource[0] . '?rev=' . $rev : $resource[0]);
 					}
-					static::$_resources[ $id ] = array( 'file' => $resource , 'external' => false );
-					if ( $external = (string) $file->attributes( )->external )
-					{ 
-						static::$_resources[ $id ][ 'external' ] = true;
+					static::$_resources[$id] = ['file' => $resource, 'external' => false, 'rel' => null, 'type' => null];
+					foreach ($file->attributes() as $attKey => $attValue)
+					{
+						if ($attKey == 'id' || $attKey == 'file')
+						{
+							continue;
+						}
+						static::$_resources[$id][$attKey] = (string)$attValue;
 					}
 				}
 				return static::$_xml;

@@ -22,23 +22,29 @@
 		public static function autoload( $controllers )
 		{
 			$controllers = ( is_array( $controllers ) ) ? $controllers : array( $controllers );
-			\Router::group( 'website.autoload' , function( ) use ( $controllers )
+			\Router::group('website.autoload', function() use ($controllers)
 			{
-				$xml = simplexml_load_file( \App::option( 'website.xml_config_path' ) . '/routes.xml' );
-				foreach ( $controllers as $controller )
+				$xml = simplexml_load_file(\App::option('website.xml_config_path') . '/routes.xml');
+				foreach ($controllers as $controller)
 				{
-					static::controller( $controller , $xml );
+					static::controller($controller, $xml);
 				}
-				if ( \App::option( 'website.auto_include_js_lang' ) )
+				if (\App::option('website.auto_include_js_lang'))
 				{
-					\Router::get( '/js/website-helper/lang/{lang}.js' , function( $lang )
+					\Router::get( '/js/website-helper/lang/{lang}.js', function($lang)
 					{
-						header( 'Content-Type: application/javascript' );
-						if ( file_exists( \App::option( 'website.language_files_path' )  . '/' . $lang .'.js' ) )
+						header('Content-Type: application/javascript');
+						$file_path = \App::option('website.language_files_path') . '/' . $lang .'.js';
+						if (file_exists($file_path))
 						{
-							ob_start( );
-							require_once( \App::option( 'website.language_files_path' )  . '/' . $lang .'.js' );
-							return ob_get_clean( );
+							$listeners = \Event::get('website');
+							if (is_array($listeners) && isset($listeners['load_js_language_file']))
+							{
+								ptc_fire('website.load_js_language_file', [&$lang, &$file_path]);
+							}
+							ob_start();
+							require_once($file_path);
+							return ob_get_clean();
 						}
 						else{ return 'var _lang = _lang || {"key":"file not found"};'; }
 					} );
