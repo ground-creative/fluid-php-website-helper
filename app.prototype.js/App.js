@@ -121,7 +121,7 @@ var APP =
 		}
 		return randomstring;
 	} ,
-	start: function( controller )
+	start: function(controllers)
 	{
 		for ( var i in this._Exec )
 		{
@@ -142,7 +142,12 @@ var APP =
 				}
 			}
 		}
-		return this.Controllers[ controller ].run( ); 
+		controllers = (Array.isArray(controllers)) ? controllers : [controllers]; 
+		for (var i = 0; i < controllers.length; i++) 
+		{
+			this.Controllers[controllers[i]].run( ); 
+		}
+		return true;
 	} ,
 	getController: function( name )
 	{ 
